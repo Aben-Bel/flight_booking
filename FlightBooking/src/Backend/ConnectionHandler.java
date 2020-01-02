@@ -8,9 +8,13 @@ import java.sql.*;
 public class ConnectionHandler {
     private static Connection connection;
     private static String driverpath = "com.mysql.cj.jdbc.Driver";
-    private static String dbLocation = "jdbc:mysql://localhost:3306/biruk";
+    private static String dbLocation = "jdbc:mysql://localhost:3306/FlightBooking";
     private static String user = "root";
     private static String password ="root";
+
+    static {
+        create();
+    }
 
     public static Statement getStatement() {
         Statement statement;
@@ -53,6 +57,32 @@ public class ConnectionHandler {
     }
 
     public static boolean isDisconnected(){
-        return connection == null;
+        boolean disconnected = true;
+        try {
+            disconnected = connection.isClosed();
+        }catch (SQLException e){
+            e.getSQLState();
+        }
+        return disconnected;
+    }
+
+    public static void main(String[] args){
+        System.out.println((connection == null));
+        ConnectionHandler.create();
+        System.out.println((connection == null));
+        PreparedStatement preparedStatement = ConnectionHandler.getPreparedStatement("SELECT * FROM LOCATION");
+        Statement preparedStatement1 = ConnectionHandler.getStatement();
+        try {
+            preparedStatement1.executeUpdate("UPDATE Location SET City = \'Success\' WHERE Location_ID = \'PDRF\'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ConnectionHandler.clean();
+        try {
+            System.out.println(connection.isClosed());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println((connection == null));
     }
 }
