@@ -66,10 +66,15 @@ public class Location implements DataManager {
     }
 
     @Override
-    public void sync() throws DBActionNotPerformed {
+    public void sync() {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Location " +
                 "WHERE Location_ID = \'"+locationID+"\'");
-        ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+        ResultSet resultSet = null;
+        try {
+            resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+        } catch (DBActionNotPerformed dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
+        }
         try {
             resultSet.next();
         } catch (SQLException e) {

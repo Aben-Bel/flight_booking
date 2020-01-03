@@ -138,10 +138,15 @@ public class User implements DataManager {
     }
 
     @Override
-    public void sync() throws DBActionNotPerformed {
+    public void sync() {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Passenger " +
                 "WHERE Username = \'"+username+"\'");
-        ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+        ResultSet resultSet = null;
+        try {
+            resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+        } catch (DBActionNotPerformed dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
+        }
         try {
             resultSet.next();
         } catch (SQLException e) {
@@ -248,6 +253,7 @@ public class User implements DataManager {
         } catch (InvalidEntry invalidEntry) {
             invalidEntry.printStackTrace();
         }
+        System.out.println("UPDATE ROW on table AND come and SAY SOMETHING");
         Scanner in = new Scanner(System.in);
         in.nextLine();
         user.sync();
