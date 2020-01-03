@@ -2,18 +2,40 @@ package Backend;
 
 import Backend.Exceptions.DBActionNotPerformed;
 import Backend.Exceptions.InvalidEntry;
+import Backend.Exceptions.NoMatchingRow;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Location implements DataManager {
     private String locationID;
     private String city;
     private String country;
     private String airportName;
+
+    // Creates a location from a result set
+    public Location(ResultSet row){
+        readRow(row);
+    }
+
+    // create a location from unique location_ID
+    public Location(String locationID) throws NoMatchingRow {
+        PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Location WHERE Location_ID = '"+locationID+"'");
+        try {
+            ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+            if (resultSet.next()){
+                readRow(resultSet);
+            }
+        } catch (DBActionNotPerformed dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
+        } catch (SQLException e) {
+            throw new NoMatchingRow("location_ID not found");
+        }
+    }
 
     public String getLocationID() {
         return locationID;
@@ -71,7 +93,7 @@ public class Location implements DataManager {
             statement.executeUpdate(update);
             update = String.format("UPDATE Location SET %s = '%s' WHERE Location_ID = '%s'", "Country", country, locationID);
             statement.executeUpdate(update);
-            update = String.format("UPDATE Location SET %s = '%s' WHERE Location_ID = '%s'", "AirportName", airportName, locationID);
+            update = String.format("UPDATE Location SET %s = '%s' WHERE Location_ID = '%s'", "Airport_Name", airportName, locationID);
             statement.executeUpdate(update);
         } catch (SQLException e) {
             throw new InvalidEntry("Updated value not accepted", e);
@@ -107,4 +129,34 @@ public class Location implements DataManager {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) throws SQLException, DBActionNotPerformed {
+        PreparedStatement preparedStatement =  QueryManager.prepareSelect("Select * from Location where Location_ID = 'ADD,ETH'");
+        ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+        resultSet.next();
+        Location location = new Location(resultSet);
+        resultSet.close();
+        QueryManager.clean();
+        System.out.println(location.getAttributes());
+        location.setAirportName("NOTaREALairport");
+        try {
+            location.update();
+        } catch (InvalidEntry invalidEntry) {
+            invalidEntry.printStackTrace();
+        }
+        System.out.println("UPDATE ROW on table AND come and SAY SOMETHING");
+        Scanner in = new Scanner(System.in);
+        in.nextLine();
+        location.sync();
+        System.out.println(location.getAttributes());
+        Location location1;
+        try {
+            location1 = new Location("FINF");
+            System.out.println(location1.getAttributes());
+        } catch (NoMatchingRow noMatchingRow) {
+            System.out.println("locationID not found");
+        }
+        System.out.println("All Systems are a go...");
+    }
+
 }

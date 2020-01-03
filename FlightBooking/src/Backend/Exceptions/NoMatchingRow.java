@@ -2,11 +2,11 @@ package Backend.Exceptions;
 
 import java.sql.SQLException;
 
-public class DBActionNotPerformed extends Exception {
-    public DBActionNotPerformed(String message){
+public class NoMatchingRow extends Exception {
+    public NoMatchingRow(String message){
         super(message);
     }
-    public DBActionNotPerformed(String message, SQLException e) {
+    public NoMatchingRow(String message, SQLException e) {
         super(message + "\n" + e.getSQLState() + "\n" + e.getMessage());
     }
 }

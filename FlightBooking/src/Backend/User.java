@@ -2,12 +2,50 @@ package Backend;
 
 import Backend.Exceptions.DBActionNotPerformed;
 import Backend.Exceptions.InvalidEntry;
+import Backend.Exceptions.NoMatchingRow;
 
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class User implements DataManager {
+
+    private String username;
+    private String newUsername;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private double loyalityMiles;
+    private String gender;
+    private String phone;
+    private String email;
+    private Date dateOfBirth;
+
+
+    // Creates a user from a result set
+    public User(ResultSet row){
+        readRow(row);
+    }
+
+    // create a user from unique username
+    public User(String username) throws NoMatchingRow {
+        PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Passenger WHERE Username = '"+username+"'");
+        try {
+            ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+            if (resultSet.next()){
+                readRow(resultSet);
+            }
+            else{
+                throw new NoMatchingRow("Username not found");
+            }
+        } catch (DBActionNotPerformed dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
+        } catch (SQLException e) {
+            throw new NoMatchingRow("Username not found");
+        }
+    }
+
+
     public String getUsername() {
         return username;
     }
@@ -80,20 +118,6 @@ public class User implements DataManager {
         this.dateOfBirth = dateOfBirth;
     }
 
-    private String username;
-    private String newUsername;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private double loyalityMiles;
-    private String gender;
-    private String phone;
-    private String email;
-    private Date dateOfBirth;
-
-    public User(ResultSet row){
-        readRow(row);
-    }
 
     public void setPassword(String pass) throws InvalidEntry {
         if (ConnectionHandler.isDisconnected()) ConnectionHandler.create();
@@ -228,6 +252,13 @@ public class User implements DataManager {
         in.nextLine();
         user.sync();
         System.out.println(user.getAttributes());
+        User user1;
+        try {
+            user1 = new User("XXXX");
+            System.out.println(user1.getAttributes());
+        } catch (NoMatchingRow noMatchingRow) {
+            System.out.println("Username not found");
+        }
         System.out.println("All Systems are a go...");
     }
 }
