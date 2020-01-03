@@ -140,23 +140,19 @@ public class User implements DataManager {
     @Override
     public void sync() {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Passenger " +
-                "WHERE Username = \'"+username+"\'");
-        ResultSet resultSet = null;
+                "WHERE Username = '"+username+"'");
+        ResultSet resultSet;
         try {
             resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
-        } catch (DBActionNotPerformed dbActionNotPerformed) {
-            dbActionNotPerformed.printStackTrace();
-        }
-        try {
             resultSet.next();
-        } catch (SQLException e) {
-            e.getMessage();
-        }
-        readRow(resultSet);
-        try {
-            resultSet.close();
-        } catch (SQLException e) {
-            e.getMessage();
+            readRow(resultSet);
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } catch (DBActionNotPerformed | SQLException dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
         }
     }
 
