@@ -69,22 +69,18 @@ public class Location implements DataManager {
     public void sync() {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Location " +
                 "WHERE Location_ID = \'"+locationID+"\'");
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         try {
             resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
-        } catch (DBActionNotPerformed dbActionNotPerformed) {
-            dbActionNotPerformed.printStackTrace();
-        }
-        try {
             resultSet.next();
-        } catch (SQLException e) {
-            e.getMessage();
-        }
-        readRow(resultSet);
-        try {
-            resultSet.close();
-        } catch (SQLException e) {
-            e.getMessage();
+            readRow(resultSet);
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } catch (DBActionNotPerformed | SQLException dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
         }
     }
 
@@ -136,31 +132,42 @@ public class Location implements DataManager {
     }
 
     public static void main(String[] args) throws SQLException, DBActionNotPerformed {
-        PreparedStatement preparedStatement =  QueryManager.prepareSelect("Select * from Location where Location_ID = 'ADD,ETH'");
+        // creates a location object from a database row
+        PreparedStatement preparedStatement =  QueryManager.prepareSelect("Select * from Location where Location_ID = 'LO251-1'");
         ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
         resultSet.next();
         Location location = new Location(resultSet);
         resultSet.close();
         QueryManager.clean();
+
+        // check getAttributes method
         System.out.println(location.getAttributes());
-        location.setAirportName("NOTaREALairport");
+
+        // checks if update works change the argument and see results
+        location.setAirportName(location.getAirportName());
         try {
             location.update();
         } catch (InvalidEntry invalidEntry) {
             invalidEntry.printStackTrace();
         }
+
+        // checks if location object can sync with database
         System.out.println("UPDATE ROW on table AND come and SAY SOMETHING");
         Scanner in = new Scanner(System.in);
         in.nextLine();
         location.sync();
         System.out.println(location.getAttributes());
+
+
+        // creates location from unique primary key
         Location location1;
         try {
-            location1 = new Location("FINF");
+            location1 = new Location("LO253-1");
             System.out.println(location1.getAttributes());
         } catch (NoMatchingRow noMatchingRow) {
             System.out.println("locationID not found");
         }
+
         System.out.println("All Systems are a go...");
     }
 

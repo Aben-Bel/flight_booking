@@ -175,14 +175,14 @@ public class Aircraft implements DataManager {
     }
 
     public static void main(String[] args) throws DBActionNotPerformed, SQLException {
-        PreparedStatement preparedStatement =  QueryManager.prepareSelect("Select * from Aircraft where Aircraft_id = 'AC002'");
+        PreparedStatement preparedStatement =  QueryManager.prepareSelect("Select * from Aircraft where Aircraft_id = 'AC001'");
         ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
         resultSet.next();
         Aircraft aircraft = new Aircraft(resultSet);
         resultSet.close();
         QueryManager.clean();
         System.out.println(aircraft.getAttributes());
-        aircraft.setSeatArrangement("NOseatsINvehicle");
+        aircraft.setBrand("AirBus");
         try {
             aircraft.update();
         } catch (InvalidEntry invalidEntry) {
@@ -195,7 +195,7 @@ public class Aircraft implements DataManager {
         System.out.println(aircraft.getAttributes());
         Aircraft aircraft1;
         try {
-            aircraft1 = new Aircraft("AC001");
+            aircraft1 = new Aircraft("AC002");
             System.out.println(aircraft1.getAttributes());
         } catch (NoMatchingRow noMatchingRow) {
             System.out.println("aircraft not found\n"+noMatchingRow.getMessage());

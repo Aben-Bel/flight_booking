@@ -8,7 +8,7 @@ import java.sql.*;
 public class ConnectionHandler {
     private static Connection connection;
     private static String driverpath = "com.mysql.cj.jdbc.Driver";
-    private static String dbLocation = "jdbc:mysql://localhost:3306/FlightBooking";
+    private static String dbLocation = "jdbc:mysql://localhost:3306/flight";
     private static String user = "root";
     private static String password ="root";
 
