@@ -27,6 +27,9 @@ public class UserSession extends ClientSession {
         super.uniqueID = user.getUsername();
     }
 
+    public User getUser() {
+        return user;
+    }
     public void registerBaggage(ArrayList<ArrayList<String>> info, String flightID){
         PreparedStatement preparedStatement = QueryManager.prepareKnownInsert("Baggage");
         for (ArrayList<String> item : info){
