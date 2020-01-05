@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class Flight implements DataManager {
     private String flightID;
-    private Date departureDate;
-    private Date arrivalDate;
+    private Timestamp departureDate;
+    private Timestamp arrivalDate;
     private String aircraftID;
     private String arrivalLocID;
     private String departureLocID;
@@ -50,11 +50,11 @@ public class Flight implements DataManager {
         return flightID;
     }
 
-    public Date getDepartureDate() {
+    public Timestamp getDepartureDate() {
         return departureDate;
     }
 
-    public Date getArrivalDate() {
+    public Timestamp getArrivalDate() {
         return arrivalDate;
     }
 
@@ -141,10 +141,10 @@ public class Flight implements DataManager {
             update = String.format("UPDATE Flight SET %s = %d WHERE Flight_ID = '%s'", "Seats_Available", seatsAvailable, flightID);
             statement.executeUpdate(update);
             PreparedStatement preparedStatement = QueryManager.prepareUpdate("Flight", "Departure_time", "Flight_ID = '"+flightID+"'");
-            preparedStatement.setDate(1, departureDate);
+            preparedStatement.setTimestamp(1, departureDate);
             QueryManager.excutePreparedStatementUpdateRepeated(preparedStatement);
             preparedStatement = QueryManager.prepareUpdate("Flight", "Arrival_time", "Flight_ID = '" + flightID + "'");
-            preparedStatement.setDate(1, arrivalDate);
+            preparedStatement.setTimestamp(1, arrivalDate);
             QueryManager.excutePreparedStatementUpdateRepeated(preparedStatement);
             QueryManager.clean();
         } catch (SQLException e) {
@@ -166,10 +166,10 @@ public class Flight implements DataManager {
     public HashMap<String, String> getAttributes() {
         HashMap<String, String> attributes = new HashMap<>();
         attributes.put("Flight_ID", flightID);
-        attributes.put("Departure_time", departureLocID);
-        attributes.put("Arrival_time", arrivalLocID);
+        attributes.put("Departure_time", ""+departureDate);
+        attributes.put("Arrival_time", ""+arrivalDate);
         attributes.put("Aircraft_Aircraft_id", aircraftID);
-        attributes.put("Location_arrival_ID", ""+arrivalLocID);
+        attributes.put("Location_arrival_ID", arrivalLocID);
         attributes.put("Location_departure_ID", departureLocID);
         attributes.put("First_Class_Price", String.format("%.2f",firstClassPrice));
         attributes.put("Business_Class_Price", String.format("%.2f",businessClassPrice));
@@ -182,8 +182,8 @@ public class Flight implements DataManager {
     public void readRow(ResultSet row) {
         try {
             flightID = row.getString("Flight_ID");
-            departureDate = row.getDate("Departure_time");
-            arrivalDate = row.getDate("Arrival_time");
+            departureDate = row.getTimestamp("Departure_time");
+            arrivalDate = row.getTimestamp("Arrival_time");
             aircraftID = row.getString("Aircraft_Aircraft_id");
             departureLocID = row.getString("Location_departure_ID");
             arrivalLocID = row.getString("Location_arrival_ID");

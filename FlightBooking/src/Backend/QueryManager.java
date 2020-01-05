@@ -26,24 +26,41 @@ public class QueryManager {
     public static PreparedStatement prepareDelete(String table, String condition) {
         if (ConnectionHandler.isDisconnected()) ConnectionHandler.create();
         String query = "DELETE FROM " + table + " WHERE " + condition;
-        PreparedStatement preparedStatement = ConnectionHandler.getPreparedStatement(query);
-        return preparedStatement;
+        return ConnectionHandler.getPreparedStatement(query);
     }
+    public static PreparedStatement prepareKnownInsert(String table){
+        switch (table){
+            case "Flight":
+            case "Passenger":
+                return prepareInsert(table, 10);
+            case "Booking":
+                return prepareInsert(table, 5);
+            case "Location":
+            case "Baggage":
+                return prepareInsert(table, 4);
+            case "Aircraft":
+                return prepareInsert(table, 7);
+            case "Checkin":
+                return prepareInsert(table, 3);
+            default:
+                throw new IllegalArgumentException("Requested table is not available");
+        }
+
+    }
+
     public static PreparedStatement prepareInsert(String table, int fieldCount){
         if (ConnectionHandler.isDisconnected()) ConnectionHandler.create();
         String inserts = "?, ";
-        String query = "INSERT INTO " + table + " VALUES (";
+        StringBuilder query = new StringBuilder("INSERT INTO " + table + " VALUES (");
         for (int i = 0; i < fieldCount - 1; i++){
-            query += inserts;
+            query.append(inserts);
         }
-        query += "?)";
-        PreparedStatement preparedStatement = ConnectionHandler.getPreparedStatement(query);
-        return preparedStatement;
+        query.append("?)");
+        return ConnectionHandler.getPreparedStatement(query.toString());
     }
     public static PreparedStatement prepareSelect(String query){
         if (ConnectionHandler.isDisconnected()) ConnectionHandler.create();
-        PreparedStatement preparedStatement = ConnectionHandler.getPreparedStatement(query);
-        return preparedStatement;
+        return ConnectionHandler.getPreparedStatement(query);
     }
     public static ResultSet executePreparedStatementSelect(PreparedStatement preparedStatement) throws DBActionNotPerformed {
         if (ConnectionHandler.isDisconnected()) ConnectionHandler.create();
@@ -89,14 +106,14 @@ public class QueryManager {
         excutePreparedStatementUpdate(preparedStatement1);
         System.out.println("Update is a go.");
 
-        PreparedStatement preparedStatement2 = prepareUpdate("Location", "City", "Location_ID = \'ADRF\'");
+        PreparedStatement preparedStatement2 = prepareUpdate("Location", "City", "Location_ID = 'ADRF'");
         try {
             preparedStatement2.setString(1, "Belfast");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         QueryManager.excutePreparedStatementUpdate(preparedStatement2);
-        PreparedStatement preparedStatement3 = prepareDelete("Location", "Location_ID != \'ADD,ETH\'");
+        PreparedStatement preparedStatement3 = prepareDelete("Location", "Location_ID != 'ADD,ETH'");
         QueryManager.excutePreparedStatementUpdate(preparedStatement3);
         System.out.println("All systems still good...");
     }

@@ -34,6 +34,13 @@ public class ConnectionHandler {
         }
         return statement;
     }
+    public static CallableStatement prepareCall(String query){
+        try {
+            return connection.prepareCall(query);
+        } catch (SQLException e) {
+            throw new ConnectionError("Can't prepare Callable Statement", e);
+        }
+    }
     public static void clean(){
         if (connection != null){
             try {
@@ -73,7 +80,7 @@ public class ConnectionHandler {
         PreparedStatement preparedStatement = ConnectionHandler.getPreparedStatement("SELECT * FROM LOCATION");
         Statement preparedStatement1 = ConnectionHandler.getStatement();
         try {
-            preparedStatement1.executeUpdate("UPDATE Location SET City = \'Success\' WHERE Location_ID = \'PDRF\'");
+            preparedStatement1.executeUpdate("UPDATE Location SET City = 'Success' WHERE Location_ID = 'PDRF'");
         } catch (SQLException e) {
             e.printStackTrace();
         }

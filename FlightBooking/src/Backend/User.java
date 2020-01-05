@@ -15,7 +15,7 @@ public class User implements DataManager {
     private String firstName;
     private String middleName;
     private String lastName;
-    private double loyalityMiles;
+    private double loyaltyMiles;
     private String gender;
     private String phone;
     private String email;
@@ -27,8 +27,34 @@ public class User implements DataManager {
         readRow(row);
     }
 
+    // create a user from username and password
+    public User(String username, String password) throws NoMatchingRow {
+        PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Passenger WHERE Username = '"+username+"'");
+        String realPassword;
+        try {
+            ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
+            if (resultSet.next()){
+                realPassword = resultSet.getString("Pass");
+            }
+            else{
+                throw new NoMatchingRow("Username not found");
+            }
+            if (!realPassword.equals(password)){
+                throw new NoMatchingRow("Password not found");
+            }
+            else{
+                readRow(resultSet);
+            }
+        } catch (DBActionNotPerformed dbActionNotPerformed) {
+            dbActionNotPerformed.printStackTrace();
+        } catch (SQLException e) {
+            throw new NoMatchingRow("Username not found");
+        }
+
+    }
+
     // create a user from unique username
-    public User(String username) throws NoMatchingRow {
+    private User(String username) throws NoMatchingRow {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Passenger WHERE Username = '"+username+"'");
         try {
             ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
@@ -78,12 +104,12 @@ public class User implements DataManager {
         this.lastName = lastName;
     }
 
-    public double getLoyalityMiles() {
-        return loyalityMiles;
+    public double getLoyaltyMiles() {
+        return loyaltyMiles;
     }
 
-    public void setLoyalityMiles(double loyalityMiles) {
-        this.loyalityMiles = loyalityMiles;
+    public void setLoyaltyMiles(double loyaltyMiles) {
+        this.loyaltyMiles = loyaltyMiles;
     }
 
     public String getGender() {
@@ -173,7 +199,7 @@ public class User implements DataManager {
             statement.executeUpdate(update);
             update = String.format("UPDATE Passenger SET %s = '%s' WHERE Username = '%s'", "Gender", gender, username);
             statement.executeUpdate(update);
-            update = String.format("UPDATE Passenger SET %s = %f WHERE Username = '%s'", "Loyality_miles", loyalityMiles, username);
+            update = String.format("UPDATE Passenger SET %s = %f WHERE Username = '%s'", "Loyality_miles", loyaltyMiles, username);
             statement.executeUpdate(update);
             update = String.format("UPDATE Passenger SET %s = '%s' WHERE Username = '%s'", "Username", newUsername, username);
             statement.executeUpdate(update);
@@ -203,7 +229,7 @@ public class User implements DataManager {
         attributes.put("First_name", firstName);
         attributes.put("Middle_name", middleName);
         attributes.put("Last_name", lastName);
-        attributes.put("Loyality_Miles", ""+loyalityMiles);
+        attributes.put("Loyality_Miles", ""+ loyaltyMiles);
         attributes.put("Gender", gender);
         attributes.put("Phone", phone);
         attributes.put("Email", email);
@@ -216,7 +242,8 @@ public class User implements DataManager {
         try {
             username = row.getString("Username");
             newUsername = username;
-            loyalityMiles = row.getDouble("Loyality_Miles");
+
+            loyaltyMiles = row.getDouble("Loyality_Miles");
             firstName = row.getString("First_name");
             middleName = row.getString("Middle_name");
             lastName = row.getString("Last_name");
@@ -232,7 +259,7 @@ public class User implements DataManager {
     public boolean isOnFlight(){
         return false;
     }
-    public boolean isOnFlight(Date date){
+    public boolean isOnFlight(Timestamp date){
         return false;
     }
     public static void main(String[] args) throws DBActionNotPerformed, SQLException {
