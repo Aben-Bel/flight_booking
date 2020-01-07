@@ -22,7 +22,6 @@ public class CreateFlight extends JPanel {
     public JLabel seatAvailable;
     public JLabel airportName;
 
-    private JPanel crflight;
 
     public FilterComboBox fromLocationCBox;
     public FilterComboBox toLocationCBox;

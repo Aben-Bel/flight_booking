@@ -91,6 +91,7 @@ public class CreateLocation extends JPanel {
         c.gridy = 10;
         c.gridwidth = 4;
         add(create, c);
+        setBackground(Color.GRAY);
     }
 
     public void reset(){

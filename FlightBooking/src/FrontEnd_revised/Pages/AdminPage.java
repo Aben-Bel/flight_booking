@@ -39,7 +39,7 @@ public class AdminPage extends JPanel {
 
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("FrontEnd.Pages.AdminPage");
+        JFrame frame = new JFrame("Admin Page");
 
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();

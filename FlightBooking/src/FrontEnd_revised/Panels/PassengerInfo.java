@@ -278,7 +278,7 @@ public class PassengerInfo extends ScreenPane {
         String dateOfBirthValue = dateOfBirthPicker.getDateStringOrEmptyString();
         String emailValue = emailField.getText();
 
-        var test = "^[a-zA-Z"+"\\"+" ]{3,}$";
+        String test = "^[a-zA-Z"+"\\"+" ]{3,}$";
         if(
                 Pattern.matches(test, titleValue)
                         && Pattern.matches(test, genderValue)
