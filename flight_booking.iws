@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1W4LMHvJlWiktWfD04P89c0wWLn" />
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager" selected="Application.PassengerPage">
+    <configuration name="AdminPage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FrontEnd_revised.Pages.AdminPage" />
+      <module name="FlightBooking" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="FrontEnd_revised.Pages.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassengerPage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FrontEnd_revised.Pages.PassengerPage" />
+      <module name="FlightBooking" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="FrontEnd_revised.Pages.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PassengerPage" />
+        <item itemvalue="Application.AdminPage" />
+      </list>
+    </recent_temporary>
+  </component>
+</project>
