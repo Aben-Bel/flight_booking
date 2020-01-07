@@ -63,7 +63,7 @@ public class PassengerPage extends JPanel {
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
 
-        frame.setSize((int) (screenWidth * 0.75), (int) (screenHeight * 0.75));
+        frame.setSize((int) (screenWidth * 0.85), (int) (screenHeight * 0.85));
         frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

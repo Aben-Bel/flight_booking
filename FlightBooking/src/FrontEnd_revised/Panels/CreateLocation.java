@@ -102,10 +102,26 @@ public class CreateLocation extends JPanel {
 
     private class CreateLocationActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            reset();
-            new ShowMessage(new JFrame(),
-                    "Location Added",
-                    "You have successfully added a Location");
+
+            String cityValue = cityField.getText();
+            String countryValue = countryField.getText();
+            String airportNameValue = airportNameField.getText();
+
+            if(
+                    cityValue.length() > 3 &&
+                            countryValue.length() > 3 &&
+                            airportNameValue.length() > 3
+            ){
+                // TODO set in the database
+                reset();
+                new ShowMessage(new JFrame(),
+                        "Location Added",
+                        "You have successfully added an Location");
+            }else{
+                new ShowMessage(new JFrame("Error"),
+                        "Invalid form",
+                        "Check the field values you have entered match their logical domain ");
+            }
         }
     }
 }

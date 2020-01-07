@@ -1,6 +1,7 @@
 package FrontEnd_revised.Panels;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,6 +14,7 @@ public abstract class ScreenPane extends JPanel {
 
     public ScreenPane(){
         super();
+        setBackground(new Color(174, 214, 150));
         parentContainer = this;
     }
 

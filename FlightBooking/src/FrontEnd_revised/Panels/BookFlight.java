@@ -151,25 +151,31 @@ public class BookFlight extends ScreenPane {
         String classValue = (String)flightClassCBox.getSelectedItem();
         String departureDateValue = departureDatePicker.getDateStringOrEmptyString();
 
-
-        if(0 < departureDatePicker.getDate().compareTo(LocalDate.now())){
-            fields.put("Departure City",departureCityValue);
-            fields.put("Arrival City",arrivalCityValue);
-            fields.put("Class",classValue);
-            fields.put("Departure Date", departureDateValue);
+        if (departureDatePicker.getDate() != null){
+            if(0 < departureDatePicker.getDate().compareTo(LocalDate.now())){
+                fields.put("Departure City",departureCityValue);
+                fields.put("Arrival City",arrivalCityValue);
+                fields.put("Class",classValue);
+                fields.put("Departure Date", departureDateValue);
 
 //            System.out.println("dc: "+departureCityValue);
 //            System.out.println("ac: "+arrivalCityValue);
 //            System.out.println("cv: "+classValue);
 //            System.out.println("dv: "+departureDateValue);
 
-            passengerPageThis.tabbedPane.setSelectedIndex(2);
+                passengerPageThis.tabbedPane.setSelectedIndex(2);
 
+            }else{
+                new ShowMessage(new JFrame("Error"),
+                        "Invalid Form Value Entry",
+                        "The date you entered is invalid" );
+            }
         }else{
             new ShowMessage(new JFrame("Error"),
-                    "Invalid Form Value Entry",
-                    "The date you entered is invalid" );
+                    "Invalid form value entry",
+                    "Please enter a date");
         }
+
 
 
     }

@@ -1,5 +1,7 @@
 package FrontEnd_revised.Panels;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -46,6 +48,15 @@ public class PassengerInfo extends ScreenPane {
     public GridBagConstraints c = new GridBagConstraints();
     public Map<String, String> fields;
     public PassengerPage passengerPageThis;
+
+
+    public JPanel userCreatePanel;
+    public JCheckBox createUser;
+    public JLabel username;
+    public JLabel password;
+    public JTextField usernameField;
+    public JPasswordField passwordField;
+
 
     public PassengerInfo(PassengerPage obj){
         parentContainer = this;
@@ -243,6 +254,62 @@ public class PassengerInfo extends ScreenPane {
 
         add(emailField, c);
 
+        c.insets = new Insets(15,30,15,30);
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        userCreatePanel = new JPanel();
+        userCreatePanel.setLayout(new GridBagLayout());
+        userCreatePanel.setBackground(new Color(205, 214, 77));
+
+        username = new JLabel("Username");
+        password = new JLabel("Password");
+        usernameField = new JTextField();
+        usernameField.setPreferredSize(new Dimension( 250, 44 ));
+        passwordField = new JPasswordField();
+        passwordField.setPreferredSize(new Dimension( 250, 44 ));
+        createUser = new JCheckBox("use the above information to create an account");
+        createUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(createUser.isSelected()){
+                    userCreatePanel.setVisible(true);
+                }else{
+                    userCreatePanel.setVisible(false);
+                }
+            }
+        });
+
+        c.gridy = 8;
+        c.gridx = 0;
+        add(createUser, c);
+
+
+        c.gridy = 1;
+        c.gridx = 0;
+        userCreatePanel.add(username, c);
+
+        c.gridy = 1;
+        c.gridx = 1;
+        userCreatePanel.add(usernameField, c);
+
+        c.gridy = 2;
+        c.gridx = 0;
+        userCreatePanel.add(password, c);
+
+        c.gridy = 2;
+        c.gridx = 1;
+        userCreatePanel.add(passwordField, c);
+
+        c.insets = new Insets(15,30,15,30);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 9;
+        c.gridx = 0;
+        add(userCreatePanel, c);
+
+        userCreatePanel.setVisible(false);
+
+
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
         c.weighty = 1.0;
@@ -302,7 +369,13 @@ public class PassengerInfo extends ScreenPane {
             fields.put("Phone Number", phoneNumberValue);
             fields.put("Date Of Birth", dateOfBirthValue);
             fields.put("Email", emailValue);
-
+            if(createUser.isSelected()){
+                fields.put("Username",usernameField.getText());
+                fields.put("Password",passwordField.getPassword().toString());
+            }else{
+                fields.put("Username",null);
+                fields.put("Password",null);
+            }
             passengerPageThis.tabbedPane.setSelectedIndex(3);
         }else{
             new ShowMessage(new JFrame("Error"),

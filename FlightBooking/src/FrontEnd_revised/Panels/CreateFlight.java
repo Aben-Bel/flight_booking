@@ -199,10 +199,33 @@ public class CreateFlight extends JPanel {
 
     private class CreateFlightActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            reset();
-            new ShowMessage(new JFrame(),
-                    "Flight Created",
-                    "You have successfully created a flight");
+            String fromLocationValue = fromLocationCBox.getSelectedItem().toString();
+            String toLocationValue = toLocationCBox.getSelectedItem().toString();
+            String firstCPriceValue = firstCPriceField.getText();
+            String businessCPriceValue = businessCPriceField.getText();
+            String economicCPriceValue = economicCPriceField.getText();
+            String seatAvailableValue = seatAvailableField.getText();
+            String airportNameValue = airportNameCBox.getSelectedItem().toString();
+
+            if(
+                    fromLocationValue.length() > 3 &&
+                            toLocationValue.matches("\\d+")&&
+                            firstCPriceValue.length() > 3 &&
+                            businessCPriceValue.matches("\\d+")&&
+                            economicCPriceValue.matches("\\d+") &&
+                            seatAvailableValue.matches("\\d+") &&
+                            airportNameValue.length() > 3
+            ){
+                // TODO set in the database
+                reset();
+                new ShowMessage(new JFrame(),
+                        "Flight Added",
+                        "You have successfully added an Flight");
+            }else{
+                new ShowMessage(new JFrame("Error"),
+                        "Invalid form",
+                        "Check the field values you have entered match their logical domain ");
+            }
         }
     }
 

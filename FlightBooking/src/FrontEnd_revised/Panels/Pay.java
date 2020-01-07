@@ -63,6 +63,7 @@ public class Pay extends ScreenPane {
     public void nextScreen() {
         if(agree.isSelected()){
             printFields();
+
             System.exit(0);
         }else{
             new ShowMessage(new JFrame("Error"),

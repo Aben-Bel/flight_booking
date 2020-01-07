@@ -178,10 +178,33 @@ public class CreateAirplane extends JPanel {
 
     private class CreateAirplaneActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            reset();
-            new ShowMessage(new JFrame(),
-                    "Airplane Added",
-                    "You have successfully added an Airplane");
+            String modelFieldValue = modelField.getText();
+            String firstClassValue = firstClassField.getText();
+            String brandFieldValue = brandField.getText();
+            String businessClassValue = businessClassField.getText();
+            String economicClassValue = economicClassField.getText();
+            String seatArrangementValue =seatArrangmentField.getText();
+
+            if(
+                    modelFieldValue.length() > 3 &&
+                            firstClassValue.matches("\\d+")&&
+                            brandFieldValue.length() > 3 &&
+                            businessClassValue.matches("\\d+")&&
+                            economicClassValue.matches("\\d+") &&
+                            seatArrangementValue.matches("\\d+")
+            ){
+                // TODO set in the database
+                reset();
+                new ShowMessage(new JFrame(),
+                        "Airplane Added",
+                        "You have successfully added an Airplane");
+            }else{
+                new ShowMessage(new JFrame("Error"),
+                        "Invalid form",
+                        "Check the field values you have entered match their logical domain ");
+            }
+
+
         }
     }
 }
