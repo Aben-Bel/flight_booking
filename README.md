@@ -4,7 +4,7 @@
 
 # Backend Documentation
 
-## Database Backend Documentation by Biruk Solomon
+## Database Backend Documentation by Infinidrix
 
 ### Typical Use Cases
 
