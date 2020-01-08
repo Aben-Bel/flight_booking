@@ -163,7 +163,7 @@ public class BookFlight extends ScreenPane {
 //            System.out.println("cv: "+classValue);
 //            System.out.println("dv: "+departureDateValue);
 
-                passengerPageThis.tabbedPane.setSelectedIndex(2);
+                passengerPageThis.tabbedPane.setSelectedIndex(1);
 
             }else{
                 new ShowMessage(new JFrame("Error"),

@@ -1,15 +1,17 @@
 package FrontEnd_revised.Panels;
 
-import FrontEnd_revised.Components.CustomTextField;
-import FrontEnd_revised.Components.FilterComboBox;
-import FrontEnd_revised.Components.ShowMessage;
+import Backend.Exceptions.NoMatchingRow;
+import Backend.Flight;
+import FrontEnd_revised.Components.*;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreateFlight extends JPanel {
     public JLabel fromLocation;
@@ -38,6 +40,7 @@ public class CreateFlight extends JPanel {
     public List<String> airports = new ArrayList<>();
 
     public JButton create;
+    public HashMap pairs;
 
     public GridBagConstraints c = new GridBagConstraints();
 
@@ -51,17 +54,16 @@ public class CreateFlight extends JPanel {
         businessCPrice = new JLabel("Business Class Price");
         economicCPrice = new JLabel("Economic Class Price");
         seatAvailable = new JLabel("Seats Available");
-        airportName = new JLabel("Airplane ID");
+        airportName = new JLabel("Aircraft ID");
 
-        from.add("one");
-        from.add("two");
-        from.add("three");
-        fromLocationCBox = new FilterComboBox(from);
 
-        to.add("one");
-        to.add("two");
-        to.add("three");
-        toLocationCBox = new FilterComboBox(to);
+        pairs = (HashMap) new MakeAirportList().getAirports();
+        ArrayList loc = new ArrayList(pairs.values());
+
+
+        fromLocationCBox = new FilterComboBox(loc);
+
+        toLocationCBox = new FilterComboBox(loc);
 
         departureTimePicker = new DateTimePicker();
         arrivalTimePicker = new DateTimePicker();
@@ -206,17 +208,29 @@ public class CreateFlight extends JPanel {
             String economicCPriceValue = economicCPriceField.getText();
             String seatAvailableValue = seatAvailableField.getText();
             String airportNameValue = airportNameCBox.getSelectedItem().toString();
+            String departureDateValue = departureTimePicker.getDatePicker().getDateStringOrEmptyString()+" "+departureTimePicker.getTimePicker().getTimeStringOrEmptyString() + ":00";
 
             if(
-                    fromLocationValue.length() > 3 &&
-                            toLocationValue.matches("\\d+")&&
-                            firstCPriceValue.length() > 3 &&
+                    fromLocationValue.length() >= 3 &&
+                            toLocationValue.length() >= 3&&
+                            firstCPriceValue.length() >= 3 &&
                             businessCPriceValue.matches("\\d+")&&
                             economicCPriceValue.matches("\\d+") &&
                             seatAvailableValue.matches("\\d+") &&
-                            airportNameValue.length() > 3
+                            airportNameValue.length() >= 3
             ){
                 // TODO set in the database
+//                try {
+//                    Flight val = new Flight(RandomString.getRandString(8));
+//                    val.setEconomicClassPrice(Integer.parseInt(economicCPriceValue));
+//                    val.setBusinessClassPrice(Integer.parseInt(businessCPriceValue));
+//                    val.setFirstClassPrice(Integer.parseInt(firstCPriceValue));
+//                    val.setDepartureDate();
+//                    val.setArrivalLocID();
+//                    val.setAircraftID();
+//                } catch (NoMatchingRow noMatchingRow) {
+//                    noMatchingRow.printStackTrace();
+//                }
                 reset();
                 new ShowMessage(new JFrame(),
                         "Flight Added",

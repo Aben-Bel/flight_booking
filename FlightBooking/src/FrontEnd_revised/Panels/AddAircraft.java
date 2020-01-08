@@ -1,6 +1,10 @@
 package FrontEnd_revised.Panels;
 
+import Backend.Aircraft;
+import Backend.Exceptions.InvalidEntry;
+import Backend.Exceptions.NoMatchingRow;
 import FrontEnd_revised.Components.CustomTextField;
+import FrontEnd_revised.Components.RandomString;
 import FrontEnd_revised.Components.ShowMessage;
 
 import javax.swing.*;
@@ -8,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateAirplane extends JPanel {
+public class AddAircraft extends JPanel {
 
     public JLabel model;
     public JLabel firstClass;
@@ -29,7 +33,7 @@ public class CreateAirplane extends JPanel {
     public GridBagConstraints c = new GridBagConstraints();
 
 
-    public CreateAirplane() {
+    public AddAircraft() {
         super(false);
         setBackground(Color.GRAY);
 
@@ -194,6 +198,21 @@ public class CreateAirplane extends JPanel {
                             seatArrangementValue.matches("\\d+")
             ){
                 // TODO set in the database
+                try {
+                    Aircraft val = new Aircraft(RandomString.getRandString(5));
+                    val.setBrand(brandFieldValue);
+                    val.setBusinessClassSeats(Integer.parseInt(businessClassValue));
+                    val.setModel(modelFieldValue);
+                    val.setEconomicClassSeats(Integer.parseInt(economicClassValue));
+                    val.setBusinessClassSeats(Integer.parseInt(businessClassValue));
+                    val.setSeatArrangement(seatArrangementValue);
+
+                    val.update();
+                    val.sync();
+                } catch (NoMatchingRow | InvalidEntry noMatchingRow) {
+                    noMatchingRow.printStackTrace();
+                }
+
                 reset();
                 new ShowMessage(new JFrame(),
                         "Airplane Added",

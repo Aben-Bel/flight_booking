@@ -1,8 +1,8 @@
 package FrontEnd_revised.Pages;
 
-import FrontEnd_revised.Panels.CreateAirplane;
+import FrontEnd_revised.Panels.AddAircraft;
 import FrontEnd_revised.Panels.CreateFlight;
-import FrontEnd_revised.Panels.CreateLocation;
+import FrontEnd_revised.Panels.AddLocation;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -23,11 +23,11 @@ public class AdminPage extends JPanel {
         tabbedPane.addTab("Create Flight", createFlightPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        JComponent createAirplanePanel = new CreateAirplane();
+        JComponent createAirplanePanel = new AddAircraft();
         tabbedPane.addTab("Create Airplane", createAirplanePanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-        JComponent createLocationPanel = new CreateLocation();
+        JComponent createLocationPanel = new AddLocation();
         tabbedPane.addTab("Create Location", createLocationPanel);
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 

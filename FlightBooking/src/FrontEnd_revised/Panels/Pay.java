@@ -62,7 +62,21 @@ public class Pay extends ScreenPane {
     @Override
     public void nextScreen() {
         if(agree.isSelected()){
-            printFields();
+            fields.get("Departure City");
+            fields.get("Arrival City");
+            fields.get("Class");
+            fields.get("Departure Date");
+            fields.get("Title");
+            fields.get("Gender");
+            fields.get("First Name");
+            fields.get("Middle Name");
+            fields.get("Last Name");
+            fields.get("Phone Number");
+            fields.get("Date Of Birth");
+            fields.get("Email");
+            fields.get("Seat Arrangement");
+            fields.get("Username");// null object if not entered
+            fields.get("Password");// null object if not entered
 
             System.exit(0);
         }else{
@@ -73,19 +87,7 @@ public class Pay extends ScreenPane {
 
     }
 
-    public void printFields(){
-        DefaultTableModel model = new DefaultTableModel();
-        Vector row = new Vector();
-        fields.entrySet().forEach(entry->{
-            row.add( entry.getKey());
-            row.add( entry.getValue());
-            model.addRow( row );
-        });
-        JTable table = new JTable( model );
-        add(table);
-        fields.entrySet().forEach(entry->{
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-        });
+    public void record(){
         System.out.println(fields.size());
     }
 }

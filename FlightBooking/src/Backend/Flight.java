@@ -26,7 +26,7 @@ public class Flight implements DataManager {
     }
 
     // create an Flight from unique aircraftID
-    Flight(String flightID) throws NoMatchingRow {
+    public Flight(String flightID) throws NoMatchingRow {
         PreparedStatement preparedStatement = QueryManager.prepareSelect("SELECT * FROM Flight WHERE Flight_ID = '"+flightID+"'");
         try {
             ResultSet resultSet = QueryManager.executePreparedStatementSelect(preparedStatement);
@@ -43,7 +43,27 @@ public class Flight implements DataManager {
         }
     }
 
-    // getters and setters
+    public void setDepartureDate(Timestamp departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public void setArrivalDate(Timestamp arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public void setAircraftID(String aircraftID) {
+        this.aircraftID = aircraftID;
+    }
+
+    public void setArrivalLocID(String arrivalLocID) {
+        this.arrivalLocID = arrivalLocID;
+    }
+
+    public void setDepartureLocID(String departureLocID) {
+        this.departureLocID = departureLocID;
+    }
+
+// getters and setters
 
 
     public String getFlightID() {

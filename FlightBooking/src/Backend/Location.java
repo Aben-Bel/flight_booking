@@ -37,6 +37,10 @@ public class Location implements DataManager {
         }
     }
 
+    public static HashMap<String, String> getAttributes(String location_departure_id) throws NoMatchingRow {
+        return new Location(location_departure_id).getAttributes();
+    }
+
     public String getLocationID() {
         return locationID;
     }

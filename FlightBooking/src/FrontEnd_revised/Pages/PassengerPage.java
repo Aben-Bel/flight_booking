@@ -1,9 +1,6 @@
 package FrontEnd_revised.Pages;
 
-import FrontEnd_revised.Panels.BookFlight;
-import FrontEnd_revised.Panels.PassengerInfo;
-import FrontEnd_revised.Panels.Pay;
-import FrontEnd_revised.Panels.SeatArrangement;
+import FrontEnd_revised.Panels.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -29,7 +26,7 @@ public class PassengerPage extends JPanel {
         tabbedPane.addTab("Book Flight", bookFlightPanel);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        JComponent selectFlightPanel = new JPanel();
+        JComponent selectFlightPanel = new FlightSearch(this);
         tabbedPane.addTab("Select Flight", selectFlightPanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 

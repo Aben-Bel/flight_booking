@@ -1,6 +1,10 @@
 package FrontEnd_revised.Panels;
 
+import Backend.Exceptions.InvalidEntry;
+import Backend.Exceptions.NoMatchingRow;
+import Backend.Location;
 import FrontEnd_revised.Components.CustomTextField;
+import FrontEnd_revised.Components.RandomString;
 import FrontEnd_revised.Components.ShowMessage;
 
 import javax.swing.*;
@@ -8,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateLocation extends JPanel {
+public class AddLocation extends JPanel {
     public JLabel city;
     public JLabel country;
     public JLabel airportName;
@@ -23,7 +27,7 @@ public class CreateLocation extends JPanel {
 
 
 
-    public CreateLocation() {
+    public AddLocation() {
         super(false);
 
         city = new JLabel("City");
@@ -100,6 +104,7 @@ public class CreateLocation extends JPanel {
         airportNameField.setText("");
     }
 
+
     private class CreateLocationActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
 
@@ -112,7 +117,16 @@ public class CreateLocation extends JPanel {
                             countryValue.length() > 3 &&
                             airportNameValue.length() > 3
             ){
-                // TODO set in the database
+                try {
+                    Location val = new Location(RandomString.getRandString(5));
+                    val.setCity(cityValue);
+                    val.setAirportName(airportNameValue);
+                    val.setCountry(countryValue);
+                    val.update();
+                    val.sync();
+                } catch (NoMatchingRow | InvalidEntry noMatchingRow) {
+                    noMatchingRow.printStackTrace();
+                }
                 reset();
                 new ShowMessage(new JFrame(),
                         "Location Added",
