@@ -7,11 +7,13 @@ import java.util.List;
 import javax.swing.*;
 
 import FrontEnd_revised.Components.FilterComboBox;
+import FrontEnd_revised.Components.MakeAirportList;
 import FrontEnd_revised.Pages.PassengerPage;
 import FrontEnd_revised.Components.ShowMessage;
 import com.github.lgooddatepicker.components.DatePicker;
 
 public class BookFlight extends ScreenPane {
+    private final HashMap pairs;
     public JLabel fromLocation;
     public JLabel toLocation;
     public JLabel flightClass;
@@ -54,15 +56,12 @@ public class BookFlight extends ScreenPane {
         flightClasses.add("Economic");
         flightClassCBox = new FilterComboBox(flightClasses);
 
-        from.add("one");
-        from.add("two");
-        from.add("three");
-        fromLocationCBox = new FilterComboBox(from);
+        pairs = (HashMap) new MakeAirportList().getAirports();
+        ArrayList loc = new ArrayList(pairs.values());
 
-        to.add("one");
-        to.add("two");
-        to.add("three");
-        toLocationCBox = new FilterComboBox(to);
+        fromLocationCBox = new FilterComboBox(loc);
+
+        toLocationCBox = new FilterComboBox(loc);
 
         book = new JButton("Book Flight");
         book.addActionListener(new ContinueActionListener());
@@ -151,7 +150,7 @@ public class BookFlight extends ScreenPane {
         String classValue = (String)flightClassCBox.getSelectedItem();
         String departureDateValue = departureDatePicker.getDateStringOrEmptyString();
 
-        if (departureDatePicker.getDate() != null){
+        if (departureDatePicker.getDate() != null && arrivalCityValue != departureCityValue){
             if(0 < departureDatePicker.getDate().compareTo(LocalDate.now())){
                 fields.put("Departure City",departureCityValue);
                 fields.put("Arrival City",arrivalCityValue);

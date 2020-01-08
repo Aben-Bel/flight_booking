@@ -16,11 +16,11 @@ public class Pay extends ScreenPane {
     public Pay(PassengerPage obj){
         super();
         fields = obj.data;
-        String text = "Your flight has been sucessfully been registered\n"
+        String text = "Your flight has been successfully registered\n"
                 +"Confirm below for reservation and make sure to make payment in 24hours\n"
                 +"The seats and flight information you provided will be reserved accordingly\n"
                 +"Select below to agree to our terms and condition.\n"
-                +"We value you our customers privacy therefore we don't use your information\n"
+                +"We value our customers' privacy therefore we don't use your information\n"
                 +"other than to book your flight and check in. We thank you for using our service";
         JTextArea message = new JTextArea(text);
         message.setBorder(BorderFactory.createCompoundBorder(
@@ -85,9 +85,5 @@ public class Pay extends ScreenPane {
                     "Please agree to the terms and conditions." );
         }
 
-    }
-
-    public void record(){
-        System.out.println(fields.size());
     }
 }
