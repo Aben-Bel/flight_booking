@@ -4,12 +4,18 @@ package FrontEnd_revised.Panels;
 import Backend.Exceptions.NoMatchingRow;
 import Backend.Flight;
 import Backend.Location;
+import FrontEnd_revised.Pages.PassengerPage;
 
 import javax.swing.*;
 import java.util.HashMap;
 public class FlightListSingle extends JPanel {
-    public FlightListSingle(HashMap<String, String> attribs) {
+    private HashMap<String, String> attributes;
+    private PassengerPage passengerPageThis;
+    public FlightListSingle(HashMap<String, String> attribs, PassengerPage obj) {
         initComponents();
+        passengerPageThis = obj;
+        PassengerPage passengerPageThis;
+        attributes = attribs;
         HashMap<String, String> location = null;
         try {
             location = Location.getAttributes(attribs.get("Location_departure_ID"));
@@ -143,6 +149,9 @@ public class FlightListSingle extends JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        passengerPageThis.data.put("flight id", "unknown");
+        passengerPageThis.tabbedPane.setSelectedIndex(2);
+
     }
 
 

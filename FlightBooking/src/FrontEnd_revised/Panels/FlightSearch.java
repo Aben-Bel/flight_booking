@@ -17,10 +17,10 @@ public class FlightSearch extends javax.swing.JPanel {
     /**
      * Creates new form FlightSearch
      */
-    PassengerPage passengerPageThis;
+    public PassengerPage passengerPageThis;
     public FlightSearch(PassengerPage obj) {
-        passengerPageThis = obj;
         initComponents();
+        passengerPageThis = obj;
     }
 
     /**
@@ -52,8 +52,6 @@ public class FlightSearch extends javax.swing.JPanel {
         jButton1.setText("Search");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passengerPageThis.data.put("flight id", "unknown");
-                passengerPageThis.tabbedPane.setSelectedIndex(2);
             }
         });
 
@@ -202,6 +200,9 @@ public class FlightSearch extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         ArrayList<HashMap<String, String>> flights = ClientSession.findFlights(new Timestamp(Date.valueOf(jTextField3.getText()).getTime()),new Timestamp( Date.valueOf(jTextField4.getText()).getTime()), jTextField1.getText(), jTextField2.getText());
+        passengerPageThis.data.get("Departure City");
+        passengerPageThis.data.get("Arrival City");
+        passengerPageThis.data.get("Departure Date");
         if (flights != null) {
             jPanel2.removeAll();
             System.out.println("Found "+flights);
@@ -217,7 +218,7 @@ public class FlightSearch extends javax.swing.JPanel {
             jPanel2.setLayout(gridLayout);
 
             for (HashMap<String, String> flight : flights) {
-                jPanel2.add(new FlightListSingle(flight));
+                jPanel2.add(new FlightListSingle(flight, passengerPageThis));
             }
             revalidate();
         }

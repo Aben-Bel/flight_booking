@@ -171,8 +171,8 @@ public class BookFlight extends ScreenPane {
             }
         }else{
             new ShowMessage(new JFrame("Error"),
-                    "Invalid form value entry",
-                    "Please enter a date");
+                    "Invalid Form Value Entry",
+                    "The date you entered is invalid" );
         }
 
 
