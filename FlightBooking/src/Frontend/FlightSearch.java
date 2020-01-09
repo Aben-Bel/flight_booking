@@ -1,14 +1,12 @@
-package FrontEnd_revised.Panels;
+package Frontend;
 
 import Backend.ClientSession;
 import Backend.Exceptions.NoMatchingRow;
 import Backend.Flight;
-import FrontEnd_revised.Pages.PassengerPage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,10 +15,8 @@ public class FlightSearch extends javax.swing.JPanel {
     /**
      * Creates new form FlightSearch
      */
-    public PassengerPage passengerPageThis;
-    public FlightSearch(PassengerPage obj) {
+    public FlightSearch() {
         initComponents();
-        passengerPageThis = obj;
     }
 
     /**
@@ -52,8 +48,7 @@ public class FlightSearch extends javax.swing.JPanel {
         jButton1.setText("Search");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passengerPageThis.data.put("flight id", "unknown");
-                passengerPageThis.tabbedPane.setSelectedIndex(2);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -201,38 +196,25 @@ public class FlightSearch extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        String departCity = passengerPageThis.data.get("Departure City");
-        String arriveCity = passengerPageThis.data.get("Arrival City");
-        Date departDate = Date.valueOf(passengerPageThis.data.get("Departure Date"));
-        ArrayList<HashMap<String, String>> flights = ClientSession.findFlights(departDate, departCity, arriveCity);
+        ArrayList<HashMap<String, String>> flights = ClientSession.findFlights(Date.valueOf(jTextField3.getText()), Date.valueOf(jTextField4.getText()), jTextField1.getText(), jTextField2.getText());
         if (flights != null) {
             jPanel2.removeAll();
             System.out.println("Found "+flights);
 
-//            jPanel2.setLayout(new GridBagLayout());
-//            GridBagConstraints gridBagConstraints = new GridBagConstraints();
-//            gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
-//            gridBagConstraints.gridx = GridBagConstraints.RELATIVE;
-//            gridBagConstraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-//            int i = 0;
             GridLayout gridLayout = new GridLayout(flights.size()*5, 1);
             gridLayout.setVgap(3);
             jPanel2.setLayout(gridLayout);
 
             for (HashMap<String, String> flight : flights) {
-                jPanel2.add(new FlightListSingle(flight, passengerPageThis));
+                jPanel2.add(new FlightListSingle(flight));
             }
             revalidate();
         }
     }
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {}
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {}
 
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {
         // TODO add your handling code here:
@@ -280,11 +262,11 @@ public class FlightSearch extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField4;
     // End of variables declaration
 
-//    public static void main(String[] args) {
-//        JFrame jFrame = new JFrame();
-//        jFrame.setSize(800, 700);
-//        jFrame.add(new FlightSearch());
-//        jFrame.setVisible(true);
-//        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    }
+    public static void main(String[] args) {
+        JFrame jFrame = new JFrame();
+        jFrame.setSize(800, 700);
+        jFrame.add(new FlightSearch());
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 }

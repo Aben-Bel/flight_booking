@@ -20,12 +20,12 @@ public class ClientSession {
         this.uniqueID = uniqueID;
     }
 
-    public static ArrayList<HashMap<String, String>> findFlights(Timestamp arrivalDate, Timestamp departureDate, String arrivalCity, String departureCity) {
+    public static ArrayList<HashMap<String, String>> findFlights(Date arrivalDate, Date departureDate, String arrivalCity, String departureCity) {
         String query ="{CALL findFlight(?, ?, ?, ?)}";
         CallableStatement flightQuery = ConnectionHandler.prepareCall(query);
         try {
-            flightQuery.setTimestamp(1, arrivalDate);
-            flightQuery.setTimestamp(2, departureDate);
+            flightQuery.setDate(1, arrivalDate);
+            flightQuery.setDate(2, departureDate);
             flightQuery.setString(3, arrivalCity);
             flightQuery.setString(4, departureCity);
         } catch (SQLException e) {
@@ -61,6 +61,29 @@ public class ClientSession {
             dbActionNotPerformed.printStackTrace();
         }
         return results;
+    }
+
+    public static ArrayList<HashMap<String, String>> findFlights(Date departDate, String departCity, String arriveCity) {
+        String query ="{CALL findFlightSimple(?, ?, ?)}";
+        CallableStatement flightQuery = ConnectionHandler.prepareCall(query);
+        try {
+            flightQuery.setDate(1, departDate);
+            flightQuery.setString(2, arriveCity);
+            flightQuery.setString(3, departCity);
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("Can't input these queries | " + e.getMessage());
+        }
+        try {
+            ResultSet resultset = flightQuery.executeQuery();
+            ArrayList<HashMap<String, String>> results = new ArrayList<>();
+            while (resultset.next()){
+                results.add(new Flight(resultset).getAttributes());
+            }
+            return results;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean isSessionAlive() {
@@ -116,7 +139,7 @@ public class ClientSession {
             System.out.println(e.getSQLState());
             System.out.println("And then "+e.getErrorCode()+"\nFinally "+e.getMessage());
         }
-        System.out.println(findFlights(Timestamp.valueOf("2020-03-22 20:00:00"), Timestamp.valueOf("2020-03-12 00:00:00"), "Addis Ababa", "Beijing"));
+        System.out.println(findFlights(Date.valueOf("2020-03-22"), Date.valueOf("2020-03-12"), "Addis Ababa", "Beijing"));
         System.out.println(findBookedSeats("FL-ADD-01"));
         ClientSession clientSession = new ClientSession("hiiii");
         try {

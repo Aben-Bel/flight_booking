@@ -18,7 +18,7 @@ public class MakeAirportList  {
         BufferedReader bufferedReader = null;
         try
         {
-            bufferedReader = new BufferedReader(new FileReader("/Users/morty/Documents/projects/flight_booking/FlightBooking/src/FrontEnd_revised/Components/airportList.txt"));
+            bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Biruk Solomon\\Desktop\\Semester 3\\School work\\Database\\Project\\FlightBooking\\FlightBooking\\src\\FrontEnd_revised\\Components\\airportList.txt"));
 
             String line = null;
             line = bufferedReader.readLine();

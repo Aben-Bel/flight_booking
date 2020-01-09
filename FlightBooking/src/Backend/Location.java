@@ -123,6 +123,7 @@ public class Location implements DataManager {
         return attributes;
     }
 
+
     @Override
     public void readRow(ResultSet row) {
         try {

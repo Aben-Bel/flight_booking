@@ -198,6 +198,10 @@ public class Flight implements DataManager {
         return attributes;
     }
 
+    public static HashMap<String, String> getAttributes(String flightID) throws NoMatchingRow {
+        return new Flight(flightID).getAttributes();
+    }
+
     @Override
     public void readRow(ResultSet row) {
         try {
