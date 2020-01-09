@@ -57,7 +57,7 @@ public class BookFlight extends ScreenPane {
         flightClassCBox = new FilterComboBox(flightClasses);
 
         pairs = (HashMap) new MakeAirportList().getAirports();
-        ArrayList loc = new ArrayList(pairs.values());
+        ArrayList loc = new ArrayList(pairs.keySet());
 
         fromLocationCBox = new FilterComboBox(loc);
 

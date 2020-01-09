@@ -206,9 +206,7 @@ public class AddAircraft extends JPanel {
                     val.setEconomicClassSeats(Integer.parseInt(economicClassValue));
                     val.setBusinessClassSeats(Integer.parseInt(businessClassValue));
                     val.setSeatArrangement(seatArrangementValue);
-
                     val.update();
-                    val.sync();
                 } catch (NoMatchingRow | InvalidEntry noMatchingRow) {
                     noMatchingRow.printStackTrace();
                 }

@@ -3,23 +3,24 @@ package FrontEnd_revised.Panels;
 import Backend.Exceptions.InvalidEntry;
 import Backend.Exceptions.NoMatchingRow;
 import Backend.Location;
-import FrontEnd_revised.Components.CustomTextField;
-import FrontEnd_revised.Components.RandomString;
-import FrontEnd_revised.Components.ShowMessage;
+import FrontEnd_revised.Components.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddLocation extends JPanel {
+    private final HashMap pairs;
     public JLabel city;
     public JLabel country;
     public JLabel airportName;
 
     public JTextField cityField;
     public JTextField countryField;
-    public JTextField airportNameField;
+    public FilterComboBox airportNameCBox;
 
     public JButton create;
 
@@ -36,7 +37,11 @@ public class AddLocation extends JPanel {
 
         cityField = new CustomTextField();
         countryField = new CustomTextField();
-        airportNameField = new CustomTextField();
+
+        pairs = (HashMap) new MakeAirportList().getAirports();
+        ArrayList loc = new ArrayList(pairs.keySet());
+
+        airportNameCBox = new FilterComboBox(loc);
 
         create = new JButton("Create Location");
         create.addActionListener(new CreateLocationActionListener());
@@ -84,7 +89,7 @@ public class AddLocation extends JPanel {
         c.gridy = 2;
         c.gridx = 1;
 
-        add(airportNameField, c);
+        add(airportNameCBox, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 10;
@@ -101,7 +106,6 @@ public class AddLocation extends JPanel {
     public void reset(){
         cityField.setText("");
         countryField.setText("");
-        airportNameField.setText("");
     }
 
 
@@ -110,20 +114,21 @@ public class AddLocation extends JPanel {
 
             String cityValue = cityField.getText();
             String countryValue = countryField.getText();
-            String airportNameValue = airportNameField.getText();
+            String airportNameValue = airportNameCBox.getSelectedItem().toString();
 
             if(
-                    cityValue.length() > 3 &&
-                            countryValue.length() > 3 &&
-                            airportNameValue.length() > 3
+                    cityValue.length() >= 3 &&
+                            countryValue.length() >= 3 &&
+                            airportNameValue.length() >= 3
             ){
                 try {
-                    Location val = new Location(RandomString.getRandString(5));
+                    System.out.println(pairs.get(airportNameValue).toString());
+                    Location val = new Location(pairs.get(airportNameValue).toString());
+
                     val.setCity(cityValue);
                     val.setAirportName(airportNameValue);
                     val.setCountry(countryValue);
                     val.update();
-                    val.sync();
                 } catch (NoMatchingRow | InvalidEntry noMatchingRow) {
                     noMatchingRow.printStackTrace();
                 }

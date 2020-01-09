@@ -58,7 +58,7 @@ public class CreateFlight extends JPanel {
 
 
         pairs = (HashMap) new MakeAirportList().getAirports();
-        ArrayList loc = new ArrayList(pairs.values());
+        ArrayList loc = new ArrayList(pairs.keySet());
 
 
         fromLocationCBox = new FilterComboBox(loc);

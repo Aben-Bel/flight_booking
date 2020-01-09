@@ -24,11 +24,11 @@ public class AdminPage extends JPanel {
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
         JComponent createAirplanePanel = new AddAircraft();
-        tabbedPane.addTab("Create Airplane", createAirplanePanel);
+        tabbedPane.addTab("Add Airplane", createAirplanePanel);
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
         JComponent createLocationPanel = new AddLocation();
-        tabbedPane.addTab("Create Location", createLocationPanel);
+        tabbedPane.addTab("Add Location", createLocationPanel);
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
 

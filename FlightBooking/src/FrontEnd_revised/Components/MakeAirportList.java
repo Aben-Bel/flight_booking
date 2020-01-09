@@ -25,7 +25,9 @@ public class MakeAirportList  {
             while (line != null) {
                 StringTokenizer stringTokenizer = new StringTokenizer(line, "\t");
                 while (stringTokenizer.hasMoreTokens()) {
-                    airports.put(stringTokenizer.nextToken(), stringTokenizer.nextToken());
+                    String key = stringTokenizer.nextToken();
+                    String value = stringTokenizer.nextToken();
+                    airports.put(value, key);
                 }
 
                 line = bufferedReader.readLine();

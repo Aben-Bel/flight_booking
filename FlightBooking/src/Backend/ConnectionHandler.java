@@ -10,7 +10,7 @@ public class ConnectionHandler {
     private static String driverpath = "com.mysql.cj.jdbc.Driver";
     private static String dbLocation = "jdbc:mysql://localhost:3306/flight";
     private static String user = "root";
-    private static String password ="root";
+    private static String password ="toortoor";
 
     static {
         create();
