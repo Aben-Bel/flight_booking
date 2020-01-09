@@ -1,5 +1,9 @@
 package FrontEnd_revised.Panels;
 
+import Backend.Exceptions.InvalidEntry;
+import Backend.Exceptions.SessionExpired;
+import Backend.SessionManager;
+import Backend.User;
 import FrontEnd_revised.Pages.PassengerPage;
 import FrontEnd_revised.Components.ShowMessage;
 
@@ -62,21 +66,32 @@ public class Pay extends ScreenPane {
     @Override
     public void nextScreen() {
         if(agree.isSelected()){
+            ArrayList<String> creds = new ArrayList<>();
+            creds.add(fields.get("Username"));// null object if not entered
+            creds.add(fields.get("Password"));// null object if not entered
+            creds.add(fields.get("First Name"));
+            creds.add(fields.get("Middle Name"));
+            creds.add(fields.get("Last Name"));
+            creds.add("0");
+            creds.add(fields.get("Gender"));
+            creds.add(fields.get("Phone Number"));
+            creds.add(fields.get("Email"));
+            creds.add(fields.get("Date Of Birth"));
+            User user;
+            try {
+                user = SessionManager.createUser(creds);
+            } catch (InvalidEntry invalidEntry) {
+                invalidEntry.printStackTrace();
+            }
+
             fields.get("Departure City");
             fields.get("Arrival City");
             fields.get("Class");
             fields.get("Departure Date");
             fields.get("Title");
-            fields.get("Gender");
-            fields.get("First Name");
-            fields.get("Middle Name");
-            fields.get("Last Name");
-            fields.get("Phone Number");
-            fields.get("Date Of Birth");
-            fields.get("Email");
             fields.get("Seat Arrangement");
-            fields.get("Username");// null object if not entered
-            fields.get("Password");// null object if not entered
+            String flightID = fields.get("Flight Id");
+
 
             System.exit(0);
         }else{
